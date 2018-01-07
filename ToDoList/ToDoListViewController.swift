@@ -10,7 +10,7 @@ import UIKit
 class ToDoListViewController: UITableViewController {
 
     
-    let iteamArray = ["Somya", "Ranjan", "Biswal"]
+    var iteamArray = ["Somya", "Ranjan", "Biswal"]
     
     
     override func viewDidLoad() {
@@ -47,5 +47,36 @@ class ToDoListViewController: UITableViewController {
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    //MARK - Add new iteam
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField()
+        
+        let alert = UIAlertController(title: "Add New Iteam", message: "", preferredStyle: .alert)
+        
+        let acttion = UIAlertAction(title: "Add Iteam", style: .default) { (action) in
+            //What will happen when user click the add button
+            
+            print(textField.text)
+            
+            self.iteamArray.append(textField.text!)
+            self.tableView.reloadData()
+            
+        }
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create a Iteam"
+            textField = alertTextField
+            
+        }
+        
+        alert.addAction(acttion)
+        
+        present(alert, animated: true, completion: nil)
+        
+    }
+    
+    
     
 }
