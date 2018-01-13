@@ -10,7 +10,7 @@ import UIKit
 class ToDoListViewController: UITableViewController {
 
     
-    var iteamArray = ["Somya", "Ranjan", "Biswal"]
+    var iteamArray = [Iteam]()
     
     let defaults = UserDefaults.standard
     
@@ -18,9 +18,22 @@ class ToDoListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let items = defaults.array(forKey: "ToDoListArray") as? [String] {
-            iteamArray = items
-        }
+        let newIteam = Iteam()
+        newIteam.title = "Somya"
+        iteamArray.append(newIteam)
+        
+        let newIteam2 = Iteam()
+        newIteam2.title = "Biswal"
+        iteamArray.append(newIteam2)
+        
+        let newIteam3 = Iteam()
+        newIteam3.title = "Ranjan"
+        iteamArray.append(newIteam3)
+        
+        
+//        if let items = defaults.array(forKey: "ToDoListArray") as? [String] {
+//            iteamArray = items
+//        }
         
     }
 
@@ -32,8 +45,26 @@ class ToDoListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoIteamCell", for: indexPath)
-        cell.textLabel?.text = iteamArray[indexPath.row]
+        
+        
+        let iteam = iteamArray[indexPath.row]
+        
+        cell.textLabel?.text = iteam.title
+   
+//      Tenary Operator (Format- value = condition ? valueIfTure : valueIfFalse)
+        
+        cell.accessoryType = iteam.done = true ? .checkmark : .none
+        
+//        if iteam.done == true {
+//            cell.accessoryType = .checkmark
+//        }
+//        else {
+//            cell.accessoryType = .none
+//        }
+        
+        
         return cell
     }
     
@@ -42,14 +73,27 @@ class ToDoListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
 //        print(iteamArray[indexPath.row])
+
+//        Small if version
+        iteamArray[indexPath.row].done = !iteamArray[indexPath.row].done
         
-        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        }
+//                lengthy if version
+//        if iteamArray[indexPath.row].done == false {
+//            iteamArray[indexPath.row].done = true
+//        }
+//        else {
+//            iteamArray[indexPath.row].done = false
+//        }
         
-        else {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        }
+        tableView.reloadData()
+        
+//        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
+//            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+//        }
+//
+//        else {
+//            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+//        }
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -65,9 +109,9 @@ class ToDoListViewController: UITableViewController {
         let acttion = UIAlertAction(title: "Add Iteam", style: .default) { (action) in
             //What will happen when user click the add button
             
-            print(textField.text)
-            
-            self.iteamArray.append(textField.text!)
+            let newIteam = Iteam()
+            newIteam.title = textField.text!
+            self.iteamArray.append(newIteam)
             
             self.defaults.set(self.iteamArray, forKey: "ToDoListArray")
             
