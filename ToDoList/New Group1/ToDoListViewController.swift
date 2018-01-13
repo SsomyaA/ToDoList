@@ -55,7 +55,7 @@ class ToDoListViewController: UITableViewController {
    
 //      Tenary Operator (Format- value = condition ? valueIfTure : valueIfFalse)
         
-        cell.accessoryType = iteam.done = true ? .checkmark : .none
+        cell.accessoryType = iteam.done ? .checkmark : .none
         
 //        if iteam.done == true {
 //            cell.accessoryType = .checkmark
