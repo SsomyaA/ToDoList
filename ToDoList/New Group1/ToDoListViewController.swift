@@ -31,9 +31,9 @@ class ToDoListViewController: UITableViewController {
         iteamArray.append(newIteam3)
         
         
-//        if let items = defaults.array(forKey: "ToDoListArray") as? [String] {
-//            iteamArray = items
-//        }
+        if let items = defaults.array(forKey: "ToDoListArray") as? [Iteam] {
+            iteamArray = items
+        }
         
     }
 
@@ -114,6 +114,8 @@ class ToDoListViewController: UITableViewController {
             self.iteamArray.append(newIteam)
             
             self.defaults.set(self.iteamArray, forKey: "ToDoListArray")
+            
+            
             
             self.tableView.reloadData()
             
