@@ -23,17 +23,7 @@ class ToDoListViewController: UITableViewController {
         
         print(dataFilePath)
         
-        let newIteam = Iteam()
-        newIteam.title = "Somya"
-        iteamArray.append(newIteam)
-        
-        let newIteam2 = Iteam()
-        newIteam2.title = "Biswal"
-        iteamArray.append(newIteam2)
-        
-        let newIteam3 = Iteam()
-        newIteam3.title = "Ranjan"
-        iteamArray.append(newIteam3)
+        loadIteam()
         
         
 //        if let items = defaults.array(forKey: "ToDoListArray") as? [Iteam] {
@@ -150,6 +140,22 @@ class ToDoListViewController: UITableViewController {
         }
         
         self.tableView.reloadData()
+        
+    }
+    
+    //MARK - Load iteam which are deleted by reloading the AAP
+    
+    func loadIteam() {
+        if let data = try? Data(contentsOf: dataFilePath!) {
+            let decoder = PropertyListDecoder()
+            do {
+                iteamArray = try decoder.decode([Iteam].self, from: data)
+            }
+            catch {
+                print("Decoder Error is \(error)")
+            }
+        }
+            
         
     }
     
