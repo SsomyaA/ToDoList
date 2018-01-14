@@ -12,11 +12,16 @@ class ToDoListViewController: UITableViewController {
     
     var iteamArray = [Iteam]()
     
-    let defaults = UserDefaults.standard
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Iteams.plist")
+    
+    
+
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print(dataFilePath)
         
         let newIteam = Iteam()
         newIteam.title = "Somya"
@@ -31,9 +36,9 @@ class ToDoListViewController: UITableViewController {
         iteamArray.append(newIteam3)
         
         
-        if let items = defaults.array(forKey: "ToDoListArray") as? [Iteam] {
-            iteamArray = items
-        }
+//        if let items = defaults.array(forKey: "ToDoListArray") as? [Iteam] {
+//            iteamArray = items
+//        }
         
     }
 
@@ -85,7 +90,9 @@ class ToDoListViewController: UITableViewController {
 //            iteamArray[indexPath.row].done = false
 //        }
         
-        tableView.reloadData()
+        
+        
+        saveIteam()
         
 //        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
 //            tableView.cellForRow(at: indexPath)?.accessoryType = .none
@@ -113,11 +120,7 @@ class ToDoListViewController: UITableViewController {
             newIteam.title = textField.text!
             self.iteamArray.append(newIteam)
             
-            self.defaults.set(self.iteamArray, forKey: "ToDoListArray")
-            
-            
-            
-            self.tableView.reloadData()
+            self.saveIteam()
             
         }
         alert.addTextField { (alertTextField) in
@@ -132,6 +135,22 @@ class ToDoListViewController: UITableViewController {
         
     }
     
+    //MARK - Save data method
     
+    func saveIteam() {
+     
+        let encoder = PropertyListEncoder()
+        
+        do {
+            let data = try encoder.encode(iteamArray)
+            try data.write(to: dataFilePath!)
+        }
+        catch {
+            print("Error Encoding IteamArray \(error)")
+        }
+        
+        self.tableView.reloadData()
+        
+    }
     
 }

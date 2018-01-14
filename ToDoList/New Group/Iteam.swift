@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Iteam {
+class Iteam: Encodable {
     
     var title: String = ""
     var done: Bool = false
